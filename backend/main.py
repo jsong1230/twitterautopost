@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 from backend.database import init_db
-from backend.routers import keywords, insights, posts
+from backend.routers import keywords, insights, posts, twitter_insights, instagram_insights
 from backend.services.scheduler_service import start_scheduler, stop_scheduler
 from backend.config import settings
 
@@ -32,6 +32,8 @@ app.add_middleware(
 app.include_router(keywords.router)
 app.include_router(insights.router)
 app.include_router(posts.router)
+app.include_router(twitter_insights.router)
+app.include_router(instagram_insights.router)
 
 
 @app.on_event("startup")

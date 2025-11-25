@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from pydantic import BaseModel
+from datetime import datetime
+from pydantic import BaseModel, field_serializer
 from backend.database import get_db
 from backend.models.keyword import Keyword
 
@@ -16,7 +17,11 @@ class KeywordResponse(BaseModel):
     id: int
     keyword: str
     is_active: bool
-    created_at: str
+    created_at: datetime
+    
+    @field_serializer('created_at')
+    def serialize_dt(self, dt: datetime, _info):
+        return dt.isoformat() if dt else None
 
     class Config:
         from_attributes = True
